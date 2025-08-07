@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Delete Account - Rented Home</title>
   <style>
     * {
@@ -26,7 +26,7 @@
       max-width: 500px;
       background-color: white;
       border-radius: 8px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
       padding: 30px;
     }
 
@@ -49,7 +49,8 @@
       font-weight: bold;
     }
 
-    form input, form textarea {
+    form input,
+    form textarea {
       width: 100%;
       padding: 10px;
       margin-bottom: 15px;
@@ -85,16 +86,36 @@
       text-align: center;
       margin-top: 15px;
     }
+
+    .toast {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background-color: #4caf50;
+      color: white;
+      padding: 15px 20px;
+      border-radius: 4px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.4s ease, transform 0.4s ease;
+      z-index: 1000;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
   </style>
 </head>
 <body>
   <div class="container">
     <h2>Request Account Deletion</h2>
     <p>We're sorry to see you go. Fill out the form below to request permanent deletion of your Rented Home account.</p>
-    
-    <form action="/request-account-deletion" method="POST">
+
+    <form id="deleteForm">
       <label for="email">Email Address *</label>
-      <input type="email" id="email" name="email" required placeholder="your@email.com">
+      <input type="email" id="email" name="email" required placeholder="your@email.com" />
 
       <label for="reason">Reason for leaving (optional)</label>
       <textarea id="reason" name="reason" placeholder="Let us know why you're deleting your account..."></textarea>
@@ -102,9 +123,31 @@
       <button type="submit">Submit Deletion Request</button>
     </form>
 
-    <div class="note">
-      Note: Account deletion is permanent and cannot be undone.
-    </div>
+    <div class="note">Note: Account deletion is permanent and cannot be undone.</div>
   </div>
+
+  <div id="toast" class="toast">Your deletion request has been submitted.</div>
+
+  <script>
+    const form = document.getElementById('deleteForm');
+    const toast = document.getElementById('toast');
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      // TODO: Send form data to backend via fetch or form submission
+
+      // Show toast
+      toast.classList.add('show');
+
+      // Clear form
+      form.reset();
+
+      // Hide toast after 3 seconds
+      setTimeout(() => {
+        toast.classList.remove('show');
+      }, 3000);
+    });
+  </script>
 </body>
 </html>
